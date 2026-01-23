@@ -4,6 +4,7 @@ import { Search } from "neetoicons";
 import { Input, NoData } from "neetoui";
 import { isEmpty } from "ramda";
 import moviesApi from "src/apis/movies";
+import MovieDetails from "src/modals/MovieDetails";
 
 import MovieListItem from "./MovieListItem";
 
@@ -13,6 +14,7 @@ const ShowMovies = () => {
   const [movies, setMovies] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [searchKey, setSearchKey] = useState("");
+  const [selectedMovieId, setSelectedMovieId] = useState(null);
 
   useEffect(() => {
     const deBounceFn = setTimeout(() => {
@@ -67,9 +69,20 @@ const ShowMovies = () => {
       ) : (
         <div className="grid grid-cols-2 justify-items-center gap-y-8 p-4 md:grid-cols-3 lg:grid-cols-4">
           {movies.map(movie => (
-            <MovieListItem key={movie.imdbID} {...movie} />
+            <div
+              key={movie.imdbID}
+              onClick={() => setSelectedMovieId(movie.imdbID)}
+            >
+              <MovieListItem {...movie} />
+            </div>
           ))}
         </div>
+      )}
+      {selectedMovieId && (
+        <MovieDetails
+          imdbID={selectedMovieId}
+          onClose={() => setSelectedMovieId(null)}
+        />
       )}
     </div>
   );
