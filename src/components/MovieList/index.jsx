@@ -6,7 +6,7 @@ import { Input } from "neetoui";
 
 const ShowMovies = () => {
   const [movies, setMovies] = useState([]);
-  const [searchKey, setSearchKey] = useState("spider");
+  const [searchKey, setSearchKey] = useState("");
 
   const baseUrl = process.env.REACT_APP_BASE_URL;
   const apiKey = process.env.REACT_APP_OMDB_API_KEY;
