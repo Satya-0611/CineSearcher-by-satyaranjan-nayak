@@ -1,11 +1,9 @@
 import axios from "axios";
 
-const searchMovies = searchKey => {
-  console.log(searchKey);
+const searchMovies = searchKey => axios.get("/", { params: { s: searchKey } });
 
-  return axios.get("/", { params: { s: searchKey } });
-};
+const getMovieDetails = imdbID => axios.get("/", { params: { i: imdbID } });
 
-const moviesApi = { searchMovies };
+const moviesApi = { searchMovies, getMovieDetails };
 
 export default moviesApi;
