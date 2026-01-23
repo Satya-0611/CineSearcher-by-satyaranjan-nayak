@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 
-import axios from "axios";
 import { Search } from "neetoicons";
 import { Input, NoData } from "neetoui";
 import { isEmpty } from "ramda";
+import moviesApi from "src/apis/movies";
 
 import MovieListItem from "./MovieListItem";
 
@@ -13,9 +13,6 @@ const ShowMovies = () => {
   const [movies, setMovies] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [searchKey, setSearchKey] = useState("");
-
-  const baseUrl = process.env.REACT_APP_BASE_URL;
-  const apiKey = process.env.REACT_APP_OMDB_API_KEY;
 
   useEffect(() => {
     const deBounceFn = setTimeout(() => {
@@ -35,10 +32,9 @@ const ShowMovies = () => {
 
     setIsLoading(true);
     try {
-      const url = `${baseUrl}/?s=${searchKey}&apiKey=${apiKey}`;
-      const response = await axios.get(url);
+      const response = await moviesApi.searchMovies(searchKey);
 
-      setMovies(response?.data?.Search || []);
+      setMovies(response?.Search || []);
     } catch (error) {
       console.log("An error Occurred", error);
       setMovies([]);
