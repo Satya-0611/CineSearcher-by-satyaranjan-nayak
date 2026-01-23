@@ -34,7 +34,7 @@ const ShowMovies = () => {
     try {
       const response = await moviesApi.searchMovies(searchKey);
 
-      setMovies(response?.data?.Search || []);
+      setMovies(response?.Search || []);
     } catch (error) {
       console.log("An error Occurred", error);
       setMovies([]);
