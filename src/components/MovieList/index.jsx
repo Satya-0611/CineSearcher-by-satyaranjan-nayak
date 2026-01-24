@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 
 import { Search } from "neetoicons";
 import { Input, NoData } from "neetoui";
@@ -16,6 +16,7 @@ const MovieList = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [searchKey, setSearchKey] = useState("");
   const [selectedMovieId, setSelectedMovieId] = useState(null);
+  const searchInputRef = useRef(null);
 
   const addToMoviesHistory = useHistoryStore(state => state.addToMoviesHistory);
 
@@ -26,6 +27,24 @@ const MovieList = () => {
 
     return () => clearTimeout(deBounceFn);
   }, [searchKey]);
+
+  useEffect(() => {
+    const handleKeyDown = event => {
+      if (event.key === "/") {
+        // to not let '/' typed into search bar
+        event.preventDefault();
+
+        // Focus the input
+        searchInputRef.current?.focus();
+      }
+    };
+
+    document.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, []);
 
   const fetchMovies = async () => {
     if (!searchKey.trim()) {
@@ -60,6 +79,7 @@ const MovieList = () => {
           className="w-full"
           placeholder="Search for movies"
           prefix={<Search />}
+          ref={searchInputRef}
           type="search"
           value={searchKey}
           onChange={e => setSearchKey(e.target.value)}
