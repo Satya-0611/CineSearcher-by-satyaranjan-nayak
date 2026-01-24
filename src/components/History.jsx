@@ -1,22 +1,29 @@
-import { useState } from "react";
+import { useEffect, useRef } from "react";
 
 import useHistoryStore from "stores/useHistoryStore";
 
 const History = () => {
-  const history = useHistoryStore(store => store.moviesHistory);
-  const [activeIndex, setActiveIndex] = useState(null);
+  const { moviesHistory, activeMovie, setActiveMovie } = useHistoryStore();
+  const itemRefs = useRef({});
+
+  useEffect(() => {
+    if (activeMovie && itemRefs.current[activeMovie]) {
+      itemRefs.current[activeMovie].scrollIntoView({
+        behavior: "smooth",
+        block: "center",
+      });
+    }
+  }, [activeMovie]);
 
   return (
     //history container
     <div className="mx-auto max-w-md">
-      <h2 className="sticky top-0 w-full bg-white pb-4 pt-8 text-center text-xl font-bold text-gray-800">
-        View history
-      </h2>
       <div className="custom-scrollbar max-h-[400px] space-y-3 pb-20">
-        {history.length > 0 ? (
-          history.map((movie, index) => (
+        {moviesHistory.length > 0 ? (
+          moviesHistory.map(movie => (
             <div
               key={movie}
+              ref={el => (itemRefs.current[movie] = el)}
               // 3. & 4. Styling logic for Active vs Inactive items
               className={`cursor-pointer rounded-xl
                 px-4
@@ -25,11 +32,11 @@ const History = () => {
                 font-medium transition-colors
                 duration-200
                 ${
-                  activeIndex === index
+                  activeMovie === movie
                     ? "bg-blue-600 text-white shadow-md" // Active State: Specific Blue + White Text
                     : "bg-blue-100 text-gray-700 hover:bg-blue-100" // Default State: Specific Light Blue
                 }`}
-              onClick={() => setActiveIndex(index)}
+              onClick={() => setActiveMovie(movie)}
             >
               {movie}
             </div>
