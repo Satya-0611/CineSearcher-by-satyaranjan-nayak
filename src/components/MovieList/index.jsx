@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef } from "react";
 
 import { Search } from "neetoicons";
-import { Input, NoData } from "neetoui";
+import { Input, NoData, Toastr } from "neetoui";
 import { isEmpty } from "ramda";
 import moviesApi from "src/apis/movies";
 import MovieDetails from "src/modals/MovieDetails";
@@ -61,6 +61,7 @@ const MovieList = () => {
       setMovies(response?.Search || []);
     } catch (error) {
       console.log("An error Occurred", error);
+      Toastr.error(error.message, { autoClose: 2000 });
       setMovies([]);
     } finally {
       setIsLoading(false);
