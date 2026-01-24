@@ -1,7 +1,7 @@
 import { Typography } from "neetoui";
 
 const MovieListItem = ({ Poster, Title, Year }) => (
-  <div className="neeto-ui-rounded-xl flex w-60 flex-col justify-between border p-4 shadow-md">
+  <div className="flex h-full w-full flex-col justify-between rounded-xl border p-4 shadow-xl">
     <img
       alt={`${Title} poster`}
       className="mb-4 h-64 w-full rounded-md object-cover"
