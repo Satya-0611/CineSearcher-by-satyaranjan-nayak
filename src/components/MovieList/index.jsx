@@ -26,6 +26,7 @@ const MovieList = () => {
     }, 500);
 
     return () => clearTimeout(deBounceFn);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchKey]);
 
   useEffect(() => {
