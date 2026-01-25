@@ -8,6 +8,7 @@ export const useShowMovies = (searchKey, options = {}) =>
     queryKey: [QUERY_KEYS.MOVIES, searchKey],
     queryFn: () => moviesApi.searchMovies(searchKey),
     ...options,
+    retry: false,
   });
 
 export const useShowMovieDetails = imdbID =>
