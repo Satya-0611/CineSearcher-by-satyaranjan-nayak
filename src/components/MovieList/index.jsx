@@ -16,32 +16,39 @@ const MovieList = () => {
   const { queryParams, updateQueryParams } = useQueryParams();
 
   const queryFromUrl = queryParams.get("q") || "";
-  const movieIdFromUrl = queryParams.get("movieId");
+
+  // CHANGE 1: Read snake_case because buildUrl created it that way
+  const movieIdFromUrl = queryParams.get("movie_id");
 
   const [searchKey, setSearchKey] = useState(queryFromUrl);
   const searchInputRef = useRef(null);
   const addToMoviesHistory = useHistoryStore(state => state.addToMoviesHistory);
 
-  // Debounce logic
+  // Debounce Effect
   useEffect(() => {
     const timer = setTimeout(() => {
       if (searchKey !== queryFromUrl) {
+        // buildUrl will handle creating ?q=...
         updateQueryParams({ q: searchKey }, "replace");
       }
     }, 500);
 
     return () => clearTimeout(timer);
-  }, [searchKey, queryFromUrl]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [searchKey, queryFromUrl]); // eslint-disable-line
 
+  // Handlers
   const handleOpenMovie = (id, title) => {
     addToMoviesHistory(title);
+    // CHANGE 2: We pass camelCase 'movieId', buildUrl converts it to 'movie_id'
     updateQueryParams({ movieId: id }, "push");
   };
 
   const handleCloseMovie = () => {
-    updateQueryParams({ movieId: null }, "push");
+    // Passing empty string or null will remove it in the next step
+    updateQueryParams({ movieId: "" }, "push");
   };
 
+  // React Query
   const { data, isLoading, isError, error } = useShowMovies(queryFromUrl, {
     enabled: !!queryFromUrl.trim(),
     placeholderData: previousData => previousData,
@@ -49,7 +56,7 @@ const MovieList = () => {
   });
 
   const movies = data?.Search || [];
-  // focus input
+
   useEffect(() => {
     if (isError && error) Toastr.error(error.message);
   }, [isError, error]);
