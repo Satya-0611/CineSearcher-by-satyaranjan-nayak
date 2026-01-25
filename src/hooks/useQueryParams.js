@@ -1,4 +1,5 @@
 import { useHistory, useLocation } from "react-router-dom";
+import { buildUrl } from "src/utils/url";
 
 export const useQueryParams = () => {
   const history = useHistory();
@@ -6,22 +7,19 @@ export const useQueryParams = () => {
   const queryParams = new URLSearchParams(location.search);
 
   const updateQueryParams = (newParams, action = "push") => {
-    const currentParams = new URLSearchParams(location.search);
+    const currentParams = Object.fromEntries(
+      new URLSearchParams(location.search)
+    );
 
-    Object.keys(newParams).forEach(key => {
-      if (newParams[key]) {
-        currentParams.set(key, newParams[key]);
-      } else {
-        currentParams.delete(key);
-      }
-    });
+    const mergedParams = { ...currentParams, ...newParams };
 
-    const searchString = currentParams.toString();
+    const url = buildUrl(location.pathname, mergedParams);
 
+    // 4. Navigate
     if (action === "replace") {
-      history.replace({ search: searchString });
+      history.replace(url);
     } else {
-      history.push({ search: searchString });
+      history.push(url);
     }
   };
 
