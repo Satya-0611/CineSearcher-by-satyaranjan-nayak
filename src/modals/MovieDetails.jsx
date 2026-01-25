@@ -1,32 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 
-import moviesApi from "apis/movies";
+import { useShowMovieDetails } from "hooks/reactQuery/useMoviesApi";
 import { Modal, Typography, Spinner } from "neetoui";
 
 const MovieDetails = ({ imdbID, onClose }) => {
-  const [movieDetails, setMovieDetails] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    const debounceFnId = setTimeout(() => {
-      fetchMovieDetails(imdbID);
-    }, 500);
-
-    return () => clearInterval(debounceFnId);
-  }, [imdbID]);
-
-  const fetchMovieDetails = async imdbID => {
-    setIsLoading(true);
-    try {
-      const response = await moviesApi.getMovieDetails(imdbID);
-      setMovieDetails(response);
-    } catch (error) {
-      console.log("An error Occurred", error);
-      setMovieDetails(null);
-    } finally {
-      setIsLoading(false);
-    }
-  };
+  const { data: movieDetails, isLoading } = useShowMovieDetails(imdbID);
 
   return (
     <Modal isOpen size="large" onClose={onClose}>
