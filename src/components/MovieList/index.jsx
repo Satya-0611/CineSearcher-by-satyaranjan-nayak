@@ -1,9 +1,9 @@
 import { useEffect, useState, useRef } from "react";
 
+import { useShowMovies } from "hooks/reactQuery/useMoviesApi";
 import { Search } from "neetoicons";
 import { Input, NoData, Toastr } from "neetoui";
 import { isEmpty } from "ramda";
-import moviesApi from "src/apis/movies";
 import MovieDetails from "src/modals/MovieDetails";
 import useHistoryStore from "stores/useHistoryStore";
 
@@ -12,64 +12,63 @@ import MovieListItem from "./MovieListItem";
 import PageLoader from "../commons/PageLoader";
 
 const MovieList = () => {
-  const [movies, setMovies] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
   const [searchKey, setSearchKey] = useState("");
+  const [debouncedSearchKey, setDebouncedSearchKey] = useState("");
   const [selectedMovieId, setSelectedMovieId] = useState(null);
   const searchInputRef = useRef(null);
 
   const addToMoviesHistory = useHistoryStore(state => state.addToMoviesHistory);
 
+  // --- 1. Debounce Logic ---
+  // We sync searchKey to debouncedSearchKey after 500ms
   useEffect(() => {
-    const deBounceFn = setTimeout(() => {
-      fetchMovies();
+    const timer = setTimeout(() => {
+      setDebouncedSearchKey(searchKey);
     }, 500);
 
-    return () => clearTimeout(deBounceFn);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    return () => clearTimeout(timer);
   }, [searchKey]);
 
+  // --- 2. React Query Implementation ---
+  const { data, isLoading, isError, error } = useShowMovies(
+    debouncedSearchKey,
+    {
+      // Only run query if debouncedKey is not empty
+      enabled: !!debouncedSearchKey.trim(),
+      // Keep previous results on screen while new data loads (optional, adds polish)
+      placeholderData: previousData => previousData,
+    }
+  );
+
+  // Derive the movies list from the data
+  // The API returns { Search: [...] }, so we access data.Search
+  const movies = data?.Search || [];
+
+  // --- 3. Error Handling Side Effect ---
+  useEffect(() => {
+    if (isError && error) {
+      console.log("An error Occurred", error);
+      Toastr.error(error.message, { autoClose: 2000 });
+    }
+  }, [isError, error]);
+
+  // --- 4. UI Logic (Focus) ---
   useEffect(() => {
     const handleKeyDown = event => {
       if (event.key === "/") {
-        // to not let '/' typed into search bar
         event.preventDefault();
-
-        // Focus the input
         searchInputRef.current?.focus();
       }
     };
-
     document.addEventListener("keydown", handleKeyDown);
 
-    return () => {
-      document.removeEventListener("keydown", handleKeyDown);
-    };
+    return () => document.removeEventListener("keydown", handleKeyDown);
   }, []);
 
-  const fetchMovies = async () => {
-    if (!searchKey.trim()) {
-      setMovies([]);
-      setIsLoading(false);
+  // --- Render ---
 
-      return;
-    }
-
-    setIsLoading(true);
-    try {
-      const response = await moviesApi.searchMovies(searchKey);
-
-      setMovies(response?.Search || []);
-    } catch (error) {
-      console.log("An error Occurred", error);
-      Toastr.error(error.message, { autoClose: 2000 });
-      setMovies([]);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  if (isLoading) {
+  // If we are strictly loading and have no data yet, show page loader
+  if (isLoading && !movies.length && !!debouncedSearchKey) {
     return <PageLoader />;
   }
 
