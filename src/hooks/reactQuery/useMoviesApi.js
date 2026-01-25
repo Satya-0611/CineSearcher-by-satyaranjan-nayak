@@ -3,10 +3,10 @@ import { QUERY_KEYS } from "constants/query";
 import moviesApi from "apis/movies";
 import { useQuery } from "react-query";
 
-export const useShowMovies = (searchKey, options = {}) =>
+export const useShowMovies = ({ searchKey, page, pageSize }, options = {}) =>
   useQuery({
-    queryKey: [QUERY_KEYS.MOVIES, searchKey],
-    queryFn: () => moviesApi.searchMovies(searchKey),
+    queryKey: [QUERY_KEYS.MOVIES, searchKey, page, pageSize],
+    queryFn: () => moviesApi.searchMovies(searchKey, page, pageSize),
     ...options,
     retry: false,
   });

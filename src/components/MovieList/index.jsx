@@ -3,21 +3,24 @@ import { useState, useEffect, useRef } from "react";
 import { useShowMovies } from "hooks/reactQuery/useMoviesApi";
 import { useQueryParams } from "hooks/useQueryParams";
 import { Search } from "neetoicons";
-import { Input, NoData, Toastr } from "neetoui";
+import { Input, NoData, Toastr, Pagination } from "neetoui";
 import { isEmpty } from "ramda";
+import { useTranslation } from "react-i18next";
 import MovieDetails from "src/modals/MovieDetails";
 import useHistoryStore from "stores/useHistoryStore";
 
+import { DEFAULT_PAGE_INDEX, DEFAULT_PAGE_SIZE } from "./constants";
 import MovieListItem from "./MovieListItem";
 
 import PageLoader from "../commons/PageLoader";
 
 const MovieList = () => {
   const { queryParams, updateQueryParams } = useQueryParams();
+  const { t } = useTranslation();
 
   const queryFromUrl = queryParams.get("q") || "";
-
-  // CHANGE 1: Read snake_case because buildUrl created it that way
+  const page = Number(queryParams.get("page") || DEFAULT_PAGE_INDEX);
+  const pageSize = Number(queryParams.get("page_size") || DEFAULT_PAGE_SIZE);
   const movieIdFromUrl = queryParams.get("movie_id");
 
   const [searchKey, setSearchKey] = useState(queryFromUrl);
@@ -28,34 +31,40 @@ const MovieList = () => {
   useEffect(() => {
     const timer = setTimeout(() => {
       if (searchKey !== queryFromUrl) {
-        // buildUrl will handle creating ?q=...
-        updateQueryParams({ q: searchKey }, "replace");
+        updateQueryParams(
+          {
+            q: searchKey,
+            page: DEFAULT_PAGE_INDEX,
+          },
+          "replace"
+        );
       }
     }, 500);
 
     return () => clearTimeout(timer);
   }, [searchKey, queryFromUrl]); // eslint-disable-line
 
-  // Handlers
   const handleOpenMovie = (id, title) => {
     addToMoviesHistory(title);
-    // CHANGE 2: We pass camelCase 'movieId', buildUrl converts it to 'movie_id'
     updateQueryParams({ movieId: id }, "push");
   };
 
   const handleCloseMovie = () => {
-    // Passing empty string or null will remove it in the next step
     updateQueryParams({ movieId: "" }, "push");
   };
 
-  // React Query
-  const { data, isLoading, isError, error } = useShowMovies(queryFromUrl, {
-    enabled: !!queryFromUrl.trim(),
-    placeholderData: previousData => previousData,
-    retry: false,
+  const { data, isLoading, isError, error } = useShowMovies({
+    searchKey: queryFromUrl,
+    page,
+    pageSize,
   });
 
   const movies = data?.Search || [];
+  const totalResults = data?.totalResults || 0;
+
+  const handlePageNavigation = newPage => {
+    updateQueryParams({ page: newPage }, "push");
+  };
 
   useEffect(() => {
     if (isError && error) Toastr.error(error.message);
@@ -67,7 +76,7 @@ const MovieList = () => {
     <div className="flex h-full flex-col justify-start gap-6 px-0">
       <div className="w-full">
         <Input
-          placeholder="Search for movies"
+          placeholder={t("searchInputPlaceholder")}
           prefix={<Search />}
           ref={searchInputRef}
           value={searchKey}
@@ -75,19 +84,31 @@ const MovieList = () => {
         />
       </div>
       {isEmpty(movies) ? (
-        <NoData title="No Movies Found" />
+        <NoData title={t("noMovies")} />
       ) : (
-        <div className="grid grid-cols-2 justify-items-center gap-x-2 gap-y-8 p-4 md:grid-cols-3 lg:grid-cols-4">
-          {movies.map(movie => (
-            <div
-              className="cursor-pointer"
-              key={movie.imdbID}
-              onClick={() => handleOpenMovie(movie.imdbID, movie.Title)}
-            >
-              <MovieListItem {...movie} />
-            </div>
-          ))}
-        </div>
+        <>
+          {" "}
+          <div className="grid grid-cols-2 justify-items-center gap-x-2 gap-y-8 p-4 md:grid-cols-3 lg:grid-cols-4">
+            {movies.map(movie => (
+              <div
+                className="cursor-pointer"
+                key={movie.imdbID}
+                onClick={() => handleOpenMovie(movie.imdbID, movie.Title)}
+              >
+                <MovieListItem {...movie} />
+              </div>
+            ))}
+          </div>
+          {/* Pagination */}
+          <div className="mb-8 flex justify-end px-4">
+            <Pagination
+              count={totalResults}
+              navigate={handlePageNavigation}
+              pageNo={page}
+              pageSize={pageSize}
+            />
+          </div>
+        </>
       )}
       {movieIdFromUrl && (
         <MovieDetails imdbID={movieIdFromUrl} onClose={handleCloseMovie} />
