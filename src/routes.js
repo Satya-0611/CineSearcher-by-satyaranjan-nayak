@@ -1,6 +1,7 @@
 const routes = {
-  root: "/",
+  root: "/movies",
   history: "/history",
+  favourites: "/favourites",
 };
 
 export default routes;
