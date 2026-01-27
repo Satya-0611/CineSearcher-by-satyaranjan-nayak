@@ -1,14 +1,16 @@
 import { QUERY_KEYS } from "constants/query";
 
 import moviesApi from "apis/movies";
-import { useQuery } from "react-query";
+import { useQuery, keepPreviousData } from "react-query";
 
 export const useShowMovies = ({ searchKey, page, pageSize }, options = {}) =>
   useQuery({
     queryKey: [QUERY_KEYS.MOVIES, searchKey, page, pageSize],
     queryFn: () => moviesApi.searchMovies(searchKey, page, pageSize),
-    ...options,
+    placeholderData: keepPreviousData,
     retry: false,
+    enabled: !!searchKey.trim(),
+    ...options,
   });
 
 export const useShowMovieDetails = imdbID =>

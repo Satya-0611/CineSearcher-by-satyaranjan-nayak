@@ -8,6 +8,12 @@ const useHistoryStore = create((set, get) => ({
 
   activeMovie: null,
 
+  setActiveMovie: movie => {
+    set({
+      activeMovie: movie,
+    });
+  },
+
   addToMoviesHistory: movie => {
     const { moviesHistory } = get();
 

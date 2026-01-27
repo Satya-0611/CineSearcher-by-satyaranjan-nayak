@@ -1,6 +1,8 @@
 {
   "searchInputPlaceholder": "Search for movies",
-  "noMovies": "No Movies Found",
-  "viewDetailsButton": "View Details",
-  "viewHistory": "View History"
+  "noMovies": "There are no movies to show",
+  "viewDetailsButton": "View details",
+  "viewHistory": "View history",
+  "pageNotFound": "The page you're looking for can't be found",
+  "noHistory": "There are no history to show"
 }
