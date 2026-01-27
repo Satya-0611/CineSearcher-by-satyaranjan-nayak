@@ -1,35 +1,39 @@
-import { getFromLocalStorage, setToLocalStorage } from "utils/storage";
+import { existsBy } from "neetocist";
 import { create } from "zustand";
+import { persist } from "zustand/middleware";
 
-import { HISTORY_KEY } from "./constants";
+const useHistoryStore = create(
+  persist(
+    (set, get) => ({
+      moviesHistory: [],
 
-const useHistoryStore = create((set, get) => ({
-  moviesHistory: getFromLocalStorage(HISTORY_KEY) || [],
+      activeMovie: null,
 
-  activeMovie: null,
+      setActiveMovie: movie => {
+        set({
+          activeMovie: movie,
+        });
+      },
 
-  setActiveMovie: movie => {
-    set({
-      activeMovie: movie,
-    });
-  },
+      addToMoviesHistory: movie => {
+        const { moviesHistory } = get();
 
-  addToMoviesHistory: movie => {
-    const { moviesHistory } = get();
+        if (!existsBy({ imdbID: movie.imdbID }, moviesHistory)) {
+          const newHistory = [movie, ...moviesHistory];
 
-    if (!moviesHistory.includes(movie)) {
-      const newHistory = [movie, ...moviesHistory];
-
-      set({
-        moviesHistory: newHistory,
-        activeMovie: movie,
-      });
-
-      setToLocalStorage(HISTORY_KEY, newHistory);
-    } else {
-      set({ activeMovie: movie });
+          set({
+            moviesHistory: newHistory,
+            activeMovie: movie,
+          });
+        } else {
+          set({ activeMovie: movie });
+        }
+      },
+    }),
+    {
+      name: "cine-searcher-history",
     }
-  },
-}));
+  )
+);
 
 export default useHistoryStore;
