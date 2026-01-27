@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from "react";
 
 import MovieDetails from "components/MovieList/modals/MovieDetails";
 import { useShowMovies } from "hooks/reactQuery/useMoviesApi";
+import useDebounce from "hooks/useDebounce";
 import { useQueryParams } from "hooks/useQueryParams";
 import { Search } from "neetoicons";
 import { Input, NoData, Toastr, Pagination } from "neetoui";
@@ -26,23 +27,16 @@ const MovieList = () => {
   const [searchKey, setSearchKey] = useState(queryFromUrl);
   const searchInputRef = useRef(null);
   const addToMoviesHistory = useHistoryStore(state => state.addToMoviesHistory);
+  const debouncedSearchKey = useDebounce(searchKey);
 
-  // Debounce Effect
   useEffect(() => {
-    const timer = setTimeout(() => {
-      if (searchKey !== queryFromUrl) {
-        updateQueryParams(
-          {
-            q: searchKey,
-            page: DEFAULT_PAGE_INDEX,
-          },
-          "replace"
-        );
-      }
-    }, 500);
-
-    return () => clearTimeout(timer);
-  }, [searchKey, queryFromUrl]); // eslint-disable-line
+    if (debouncedSearchKey !== queryFromUrl) {
+      updateQueryParams({
+        q: debouncedSearchKey,
+        page: DEFAULT_PAGE_INDEX,
+      });
+    }
+  }, [queryFromUrl, debouncedSearchKey, updateQueryParams]);
 
   const handleOpenMovie = (id, title) => {
     addToMoviesHistory(title);

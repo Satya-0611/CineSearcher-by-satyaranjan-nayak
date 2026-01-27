@@ -1,8 +1,7 @@
 import { NoData } from "neetoui";
-import { useTranslation } from "react-i18next";
+import { withTranslation } from "react-i18next";
 
-const PageNotFound = () => {
-  const { t } = useTranslation();
+const PageNotFound = ({ t }) => (
   <div className="absolute left-1/3 top-1/3">
     <NoData
       title={t("pageNotFound")}
@@ -12,7 +11,7 @@ const PageNotFound = () => {
         to: "/",
       }}
     />
-  </div>;
-};
+  </div>
+);
 
-export default PageNotFound;
+export default withTranslation()(PageNotFound);
