@@ -82,6 +82,7 @@
     "workbox-webpack-plugin": "^6.4.1"
   },
   "dependencies": {
+    "@bigbinary/babel-preset-neeto": "1.0.6",
     "@bigbinary/neeto-cist": "1.0.6",
     "@bigbinary/neeto-icons": "1.17.6",
     "@bigbinary/neetoui": "5.2.41",
@@ -182,7 +183,8 @@
   },
   "babel": {
     "presets": [
-      "react-app"
+      "react-app",
+      "@bigbinary/neeto"
     ]
   }
 }

@@ -4,5 +4,10 @@
   "viewDetailsButton": "View details",
   "viewHistory": "View history",
   "pageNotFound": "The page you're looking for can't be found",
-  "noHistory": "There are no history to show"
+  "noHistory": "There are no history to show",
+  "favourites": {
+    "noData": "No Favourites Added",
+    "add": "Add to favourites",
+    "remove": "Remove from favourites"
+  }
 }

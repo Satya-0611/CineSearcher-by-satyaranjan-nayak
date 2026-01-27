@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 
+import AddToFavourites from "components/commons/AddToFavourites";
 import { useShowMovieDetails } from "hooks/reactQuery/useMoviesApi";
 import { Modal, Typography, Spinner, Toastr } from "neetoui";
 
@@ -32,13 +33,15 @@ const MovieDetails = ({ imdbID, onClose, isOpen }) => {
         <div className="rounded-lg p-6">
           {/* Header Section */}
           <div className="mb-6 pr-8">
-            <Typography className="text-gray-800" style="h2" weight="bold">
+            <Typography
+              className="flex gap-3 font-bold text-gray-800"
+              style="h3"
+            >
               {movieDetails?.Title}
+              <AddToFavourites {...movieDetails} />
             </Typography>
-            {/* Genre Tags */}
             <GenreTags genres={movieDetails?.Genre} />
           </div>
-          {/* Body Section */}
           <div className="flex flex-col items-center gap-8 md:flex-row">
             {/* Left - Image */}
             <PosterImage
@@ -46,7 +49,7 @@ const MovieDetails = ({ imdbID, onClose, isOpen }) => {
               className="h-auto w-full max-w-md rounded-lg object-cover shadow-md md:w-64"
               src={movieDetails?.Poster}
             />
-            {/* RIGHT - Description */}
+            {/* Right - Description */}
             <div className="flex flex-1 flex-col">
               <Typography className="mb-6 text-gray-600">
                 {movieDetails?.Plot}
