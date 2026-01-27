@@ -1,4 +1,3 @@
-import { existsBy } from "neetocist";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
@@ -18,7 +17,7 @@ const useHistoryStore = create(
       addToMoviesHistory: movie => {
         const { moviesHistory } = get();
 
-        if (!existsBy({ imdbID: movie.imdbID }, moviesHistory)) {
+        if (!moviesHistory.includes(movie)) {
           const newHistory = [movie, ...moviesHistory];
 
           set({
@@ -29,6 +28,18 @@ const useHistoryStore = create(
           set({ activeMovie: movie });
         }
       },
+
+      removeFromMoviesHistory: movie =>
+        set(state => ({
+          moviesHistory: state.moviesHistory.filter(
+            currMovie => currMovie !== movie
+          ),
+        })),
+
+      clearAllHistory: () =>
+        set({
+          moviesHistory: [],
+        }),
     }),
     {
       name: "cine-searcher-history",
