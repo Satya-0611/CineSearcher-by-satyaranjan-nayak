@@ -1,12 +1,12 @@
 import { useState, useEffect, useRef } from "react";
 
+import MovieDetails from "components/MovieList/modals/MovieDetails";
 import { useShowMovies } from "hooks/reactQuery/useMoviesApi";
 import { useQueryParams } from "hooks/useQueryParams";
 import { Search } from "neetoicons";
 import { Input, NoData, Toastr, Pagination } from "neetoui";
 import { isEmpty } from "ramda";
 import { useTranslation } from "react-i18next";
-import MovieDetails from "src/modals/MovieDetails";
 import useHistoryStore from "stores/useHistoryStore";
 
 import { DEFAULT_PAGE_INDEX, DEFAULT_PAGE_SIZE } from "./constants";
@@ -80,7 +80,7 @@ const MovieList = () => {
           prefix={<Search />}
           ref={searchInputRef}
           value={searchKey}
-          onChange={e => setSearchKey(e.target.value)}
+          onChange={({ target: { value } }) => setSearchKey(value)}
         />
       </div>
       {isEmpty(movies) ? (
@@ -88,7 +88,7 @@ const MovieList = () => {
       ) : (
         <>
           {" "}
-          <div className="grid grid-cols-2 justify-items-center gap-x-2 gap-y-8 p-4 md:grid-cols-3 lg:grid-cols-4">
+          <div className="grid grid-cols-2 justify-items-center gap-x-2 gap-y-8 p-4 lg:grid-cols-3 xl:grid-cols-4">
             {movies.map(movie => (
               <div
                 className="cursor-pointer"
@@ -110,9 +110,11 @@ const MovieList = () => {
           </div>
         </>
       )}
-      {movieIdFromUrl && (
-        <MovieDetails imdbID={movieIdFromUrl} onClose={handleCloseMovie} />
-      )}
+      <MovieDetails
+        imdbID={movieIdFromUrl}
+        isOpen={!!movieIdFromUrl}
+        onClose={handleCloseMovie}
+      />
     </div>
   );
 };
