@@ -84,9 +84,9 @@ const History = () => {
       </div>
       <Alert
         isOpen={isAlertOpen}
-        message="Are you sure you want to delete all history"
+        message={t("clearAllHistoryConfirmation.message")}
         size="small"
-        title="Clear History"
+        title={t("clearAllHistoryConfirmation.title")}
         onClose={() => setIsAlertOpen(false)}
         onSubmit={handleSubmit}
       />
