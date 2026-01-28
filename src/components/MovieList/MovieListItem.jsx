@@ -16,7 +16,7 @@ const MovieListItem = ({ Poster, Title, Year, t }) => (
       className="hover:scale-1.1 mt-auto pt-3 text-sm font-bold text-[#4a90e2] hover:underline"
       style={{ color: "#4a90e2" }}
     >
-      {t("viewDetailsButton")}
+      {t("movie.viewDetailsButton")}
     </button>
   </div>
 );

@@ -1,6 +1,7 @@
 import { useState } from "react";
 
 import { Typography, Input, Checkbox, Button } from "neetoui";
+import { isEmpty } from "ramda";
 
 const FilterUI = ({ initialValues, onSubmit, onClose }) => {
   const [year, setYear] = useState(initialValues?.year || "");
@@ -22,7 +23,7 @@ const FilterUI = ({ initialValues, onSubmit, onClose }) => {
     let typeParam = type.join(",");
 
     // select none if more than one type selected
-    if (type.length !== 1) {
+    if (isEmpty(type) !== 1) {
       typeParam = "";
     }
 

@@ -1,11 +1,9 @@
 import axios from "axios";
-
-const baseUrl = process.env.REACT_APP_BASE_URL;
-const apiKey = process.env.REACT_APP_OMDB_API_KEY;
+import { OMDB_API, OMDB_API_KEY } from "src/constants";
 
 const requestInterceptor = () => {
   axios.interceptors.request.use(config => {
-    config.params = { ...config.params, apiKey };
+    config.params = { ...config.params, apiKey: OMDB_API_KEY };
 
     return config;
   });
@@ -29,7 +27,7 @@ const setHttpHeaders = () => {
 };
 
 export default function initializeAxios() {
-  axios.defaults.baseURL = baseUrl;
+  axios.defaults.baseURL = OMDB_API;
   setHttpHeaders();
   requestInterceptor();
   responseInterceptor();
