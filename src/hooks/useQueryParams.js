@@ -15,7 +15,6 @@ export const useQueryParams = () => {
 
     const url = buildUrl(location.pathname, mergedParams);
 
-    // 4. Navigate
     if (action === "replace") {
       history.replace(url);
     } else {

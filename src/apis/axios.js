@@ -14,7 +14,6 @@ const requestInterceptor = () => {
 const responseInterceptor = () => {
   axios.interceptors.response.use(response => {
     if (response.data.Response === "False") {
-      // This throws the specific message: "Movie not found!" or "Too many results."
       throw new Error(response.data.Error);
     }
 

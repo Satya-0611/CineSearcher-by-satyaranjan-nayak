@@ -3,11 +3,18 @@
   "noMovies": "There are no movies to show",
   "viewDetailsButton": "View details",
   "viewHistory": "View history",
-  "pageNotFound": "The page you're looking for can't be found",
+  "pageNotFound": {
+    "title": "The page you're looking for can't be found",
+    "label": "Back to home"
+  },
   "noHistory": "There are no history to show",
   "favourites": {
     "noData": "No Favourites Added",
     "add": "Add to favourites",
     "remove": "Remove from favourites"
+  },
+  "clearAllHistoryConfirmation": {
+    "title": "Clear History",
+    "message": "Are you sure you want to delete all history"
   }
 }

@@ -4,18 +4,20 @@ import MovieDetails from "components/MovieList/modals/MovieDetails";
 import { useShowMovies } from "hooks/reactQuery/useMoviesApi";
 import useDebounce from "hooks/useDebounce";
 import { useQueryParams } from "hooks/useQueryParams";
-import { Search } from "neetoicons";
+import { Filter, Search } from "neetoicons";
 import { Input, NoData, Toastr, Pagination } from "neetoui";
 import { isEmpty } from "ramda";
 import { useTranslation } from "react-i18next";
 import useHistoryStore from "stores/useHistoryStore";
 
 import { DEFAULT_PAGE_INDEX, DEFAULT_PAGE_SIZE } from "./constants";
+import FilterUI from "./FilterUI";
 import MovieListItem from "./MovieListItem";
 
 import PageLoader from "../commons/PageLoader";
 
 const MovieList = () => {
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
   const { queryParams, updateQueryParams } = useQueryParams();
   const { t } = useTranslation();
 
@@ -23,6 +25,8 @@ const MovieList = () => {
   const page = Number(queryParams.get("page") || DEFAULT_PAGE_INDEX);
   const pageSize = Number(queryParams.get("page_size") || DEFAULT_PAGE_SIZE);
   const movieIdFromUrl = queryParams.get("movie_id");
+  const yearFromUrl = queryParams.get("year");
+  const typeFromUrl = queryParams.get("type");
 
   const [searchKey, setSearchKey] = useState(queryFromUrl);
   const searchInputRef = useRef(null);
@@ -51,7 +55,14 @@ const MovieList = () => {
     searchKey: queryFromUrl,
     page,
     pageSize,
+    year: yearFromUrl,
+    type: typeFromUrl,
   });
+
+  const handleApplyFilters = newFilters => {
+    updateQueryParams({ ...newFilters, page: DEFAULT_PAGE_INDEX });
+    setIsFilterOpen(false);
+  };
 
   const movies = data?.Search || [];
   const totalResults = data?.totalResults || 0;
@@ -68,7 +79,7 @@ const MovieList = () => {
 
   return (
     <div className="flex h-full flex-col justify-start gap-6 px-0">
-      <div className="w-full">
+      <div className="flex w-full gap-3">
         <Input
           placeholder={t("searchInputPlaceholder")}
           prefix={<Search />}
@@ -76,6 +87,15 @@ const MovieList = () => {
           value={searchKey}
           onChange={({ target: { value } }) => setSearchKey(value)}
         />
+        {/* Filter option */}
+        <Filter onClick={() => setIsFilterOpen(true)} />
+        {isFilterOpen && (
+          <FilterUI
+            initialValues={{ type: typeFromUrl, year: yearFromUrl }}
+            onClose={() => setIsFilterOpen(false)}
+            onSubmit={handleApplyFilters}
+          />
+        )}
       </div>
       {isEmpty(movies) ? (
         <NoData title={t("noMovies")} />
