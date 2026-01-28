@@ -1,20 +1,42 @@
 {
   "searchInputPlaceholder": "Search for movies",
-  "noMovies": "There are no movies to show",
-  "viewDetailsButton": "View details",
-  "viewHistory": "View history",
+  "movie": {
+    "noData": "There are no movies to show",
+    "removeMovie": "remove movie from history",
+    "director": "Director:",
+    "actors": "Actors:",
+    "boxOffice": "BoxOffice:",
+    "year": "Year:",
+    "runtime": "Runtime:",
+    "language": "Language:",
+    "rated": "Rated:",
+    "viewDetailsButton": "View details"
+  },
   "pageNotFound": {
     "title": "The page you're looking for can't be found",
     "label": "Back to home"
   },
-  "noHistory": "There are no history to show",
+  "history": {
+    "noData": "There are no history to show",
+    "tabTitle": "View history",
+    "clearAllAlert": {
+      "title": "Clear history",
+      "message": "Are you sure you want to delete all history"
+    },
+    "removeMovieAlert": {
+      "title": "Remove movie from history",
+      "message": "Are you sure you want delete"
+    }
+  },
   "favourites": {
-    "noData": "No Favourites Added",
+    "noData": "No favourites added",
     "add": "Add to favourites",
     "remove": "Remove from favourites"
   },
-  "clearAllHistoryConfirmation": {
-    "title": "Clear History",
-    "message": "Are you sure you want to delete all history"
+  "header": {
+    "title": {
+      "cine": "Cine",
+      "searcher": "Searcher"
+    }
   }
 }

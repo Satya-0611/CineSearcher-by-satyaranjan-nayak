@@ -4,8 +4,8 @@ import AddToFavourites from "components/commons/AddToFavourites";
 import { useShowMovieDetails } from "hooks/reactQuery/useMoviesApi";
 import { Modal, Typography, Spinner, Toastr } from "neetoui";
 
+import MovieDescription from "./Description";
 import GenreTags from "./GenreTags";
-import MovieDescription from "./MovieDescription";
 
 import PosterImage from "../PosterImage";
 

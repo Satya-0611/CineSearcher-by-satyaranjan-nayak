@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 
-import MovieDetails from "components/MovieList/modals/MovieDetails";
+import MovieDetails from "components/MovieList/MovieDetails";
 import { useShowMovies } from "hooks/reactQuery/useMoviesApi";
 import useDebounce from "hooks/useDebounce";
 import { useQueryParams } from "hooks/useQueryParams";
@@ -75,7 +75,7 @@ const MovieList = () => {
     if (isError && error) Toastr.error(error.message);
   }, [isError, error]);
 
-  if (isLoading && !movies.length && !!queryFromUrl) return <PageLoader />;
+  if (isLoading && isEmpty(movies) && !!queryFromUrl) return <PageLoader />;
 
   return (
     <div className="flex h-full flex-col justify-start gap-6 px-0">
@@ -98,7 +98,7 @@ const MovieList = () => {
         )}
       </div>
       {isEmpty(movies) ? (
-        <NoData title={t("noMovies")} />
+        <NoData title={t("movie.noData")} />
       ) : (
         <>
           {" "}

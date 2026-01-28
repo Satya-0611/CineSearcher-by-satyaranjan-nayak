@@ -3,7 +3,7 @@ import { isEmpty } from "ramda";
 import { useTranslation } from "react-i18next";
 import useFavouritesStore from "stores/useFavouritesStore";
 
-import FavouriteListItem from "./FavouriteListItem";
+import FavouriteListItem from "./ListItem";
 
 const Favourites = () => {
   const { favourites } = useFavouritesStore.pick();

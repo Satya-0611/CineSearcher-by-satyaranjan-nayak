@@ -1,10 +1,9 @@
 import { useState } from "react";
 
 import { Rating, RatingFilled } from "neetoicons";
+import { Button } from "neetoui";
 import { useTranslation } from "react-i18next";
 import useFavouritesStore from "stores/useFavouritesStore";
-
-import TooltipWrapper from "./TooltipWrapper";
 
 const AddToFavourites = ({ Title, imdbRating, imdbID }) => {
   const { isFavourite, addToFavourites, removeFromFavourites } =
@@ -27,14 +26,13 @@ const AddToFavourites = ({ Title, imdbRating, imdbID }) => {
   };
 
   return (
-    <TooltipWrapper content={t("favourites.add")}>
-      <button
-        className="flex items-center rounded-full border"
-        onClick={toggleFavourite}
-      >
-        {isLiked ? <RatingFilled /> : <Rating />}
-      </button>
-    </TooltipWrapper>
+    <Button
+      className="rounded-full border"
+      icon={isLiked ? RatingFilled : Rating}
+      style="text"
+      tooltipProps={isLiked ? null : { content: t("favourites.add") }}
+      onClick={toggleFavourite}
+    />
   );
 };
 

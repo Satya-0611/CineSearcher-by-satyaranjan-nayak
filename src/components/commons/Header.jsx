@@ -1,15 +1,16 @@
 import { Typography } from "neetoui";
+import { withTranslation } from "react-i18next";
 import { NavLink } from "react-router-dom/cjs/react-router-dom";
 import routes from "routes";
 
-const Header = () => (
+const Header = ({ t }) => (
   <div className="sticky top-0 z-50 flex w-full gap-6 border-b bg-white px-6 py-4 shadow-sm">
     <div className="flex text-2xl font-bold">
       <Typography className="text-blue-600" style="h3" weight="bold">
-        Cine&nbsp;
+        {t("header.title.cine")}&nbsp;
       </Typography>
       <Typography className="text-black" style="h3" weight="bold">
-        Searcher
+        {t("header.title.searcher")}
       </Typography>
     </div>
     <NavLink
@@ -29,4 +30,4 @@ const Header = () => (
   </div>
 );
 
-export default Header;
+export default withTranslation()(Header);

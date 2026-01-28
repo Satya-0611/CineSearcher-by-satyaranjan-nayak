@@ -1,9 +1,11 @@
 import { useEffect, useRef, useState } from "react";
 
-import { Delete } from "neetoicons";
 import { Alert, Toastr } from "neetoui";
+import { isEmpty } from "ramda";
 import { useTranslation } from "react-i18next";
 import useHistoryStore from "stores/useHistoryStore";
+
+import HistoryListItem from "./ListItem";
 
 const History = () => {
   const [isAlertOpen, setIsAlertOpen] = useState(false);
@@ -33,7 +35,7 @@ const History = () => {
   };
 
   const handleSubmit = () => {
-    if (moviesHistory.length > 0) {
+    if (!isEmpty(moviesHistory)) {
       clearAllHistory();
     } else {
       Toastr.error("Movies history is empty");
@@ -46,7 +48,7 @@ const History = () => {
     <div className="mx-auto max-w-md ">
       <div className="flex px-4">
         <h2 className="w-full bg-white pb-6 pt-8 text-xl font-bold text-gray-800">
-          {t("viewHistory")}
+          {t("history.tabTitle")}
         </h2>
         <button
           className="font-bolder text-red-600"
@@ -56,37 +58,29 @@ const History = () => {
         </button>
       </div>
       <div className="custom-scrollbar max-h-[400px] space-y-3 pb-20">
-        {moviesHistory.length > 0 ? (
+        {!isEmpty(moviesHistory) > 0 ? (
           moviesHistory.map(movie => (
-            <div
+            <HistoryListItem
               key={movie}
-              ref={el => (itemRefs.current[movie] = el)}
-              className={`flex cursor-pointer justify-between
-                  rounded-xl
-                  px-4
-                  py-3 font-medium
-                  transition-colors
-                  duration-200
-                  ${
-                    activeMovie === movie
-                      ? "bg-blue-600 text-white shadow-md"
-                      : "bg-blue-100 text-gray-700 hover:bg-blue-100"
-                  }`}
-              onClick={() => setActiveMovie(movie)}
-            >
-              {movie}
-              <Delete onClick={() => deleteMovie(movie)} />
-            </div>
+              {...{
+                movie,
+                activeMovie,
+                setActiveMovie,
+                deleteMovie,
+                itemRefs,
+              }}
+            />
           ))
         ) : (
-          <p className="text-center text-gray-400">{t("noHistory")}</p>
+          <p className="text-center text-gray-400">{t("history.noData")}</p>
         )}
       </div>
       <Alert
         isOpen={isAlertOpen}
-        message={t("clearAllHistoryConfirmation.message")}
+        message={t("history.clearAllAlert.message")}
         size="small"
-        title={t("clearAllHistoryConfirmation.title")}
+        submitButtonLabel="Delete"
+        title={t("history.clearAllAlert.title")}
         onClose={() => setIsAlertOpen(false)}
         onSubmit={handleSubmit}
       />
