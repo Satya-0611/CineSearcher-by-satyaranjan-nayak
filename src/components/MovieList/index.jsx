@@ -101,7 +101,6 @@ const MovieList = () => {
         <NoData title={t("movie.noData")} />
       ) : (
         <>
-          {" "}
           <div className="grid grid-cols-2 justify-items-center gap-x-2 gap-y-8 p-4 lg:grid-cols-3 xl:grid-cols-4">
             {movies.map(movie => (
               <div

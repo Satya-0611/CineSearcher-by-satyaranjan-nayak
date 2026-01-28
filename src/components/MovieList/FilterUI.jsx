@@ -1,15 +1,19 @@
 import { useState } from "react";
 
+import dayjs from "dayjs";
 import { Typography, Input, Checkbox, Button } from "neetoui";
 import { isEmpty } from "ramda";
+import { useTranslation } from "react-i18next";
 
 const FilterUI = ({ initialValues, onSubmit, onClose }) => {
   const [year, setYear] = useState(initialValues?.year || "");
+  const [yearError, setYearError] = useState("");
   const [type, setType] = useState(() => {
     const typeString = initialValues?.type || "movie, series";
 
     return typeString ? typeString.split(", ") : [];
   });
+  const { t } = useTranslation();
 
   const handleTypeChange = ({ target: { name, checked } }) => {
     if (checked) {
@@ -20,9 +24,14 @@ const FilterUI = ({ initialValues, onSubmit, onClose }) => {
   };
 
   const handleSubmit = () => {
+    if (parseInt(year) > dayjs().year()) {
+      setYearError(t("errorMessages.year"));
+
+      return;
+    }
     let typeParam = type.join(",");
 
-    // select none if more than one type selected
+    // if both type selected
     if (isEmpty(type) !== 1) {
       typeParam = "";
     }
@@ -36,7 +45,7 @@ const FilterUI = ({ initialValues, onSubmit, onClose }) => {
       {/* Header */}
       <div className="mb-4 flex items-center justify-between">
         <Typography style="h4" weight="bold">
-          Filter
+          {t("filter.title")}
         </Typography>
         <button className="text-gray-400 hover:text-gray-600" onClick={onClose}>
           &#10006;
@@ -45,7 +54,8 @@ const FilterUI = ({ initialValues, onSubmit, onClose }) => {
       {/* Year Input */}
       <div className="mb-4">
         <Input
-          label="Year"
+          error={yearError}
+          label={t("filter.year")}
           placeholder="2024"
           value={year}
           onChange={e => {
@@ -55,20 +65,20 @@ const FilterUI = ({ initialValues, onSubmit, onClose }) => {
       </div>
       <div className="mb-6">
         <Typography className="mb-2" style="body2" weight="semibold">
-          Type
+          {t("filter.type")}
         </Typography>
         <div className="flex gap-6">
           <Checkbox
             checked={type.includes("movie")}
             id="movie"
-            label="Movie"
+            label={t("filter.movie")}
             name="movie"
             onChange={handleTypeChange}
           />
           <Checkbox
             checked={type.includes("series")}
             id="series"
-            label="Series"
+            label={t("filter.series")}
             name="series"
             onChange={handleTypeChange}
           />

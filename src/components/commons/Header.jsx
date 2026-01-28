@@ -18,14 +18,14 @@ const Header = ({ t }) => (
       className="m-1 font-bold"
       to={routes.root}
     >
-      Home
+      {t("routes.home")}
     </NavLink>
     <NavLink
       activeClassName="text-blue-500"
       className="m-1 font-bold"
       to={routes.favourites}
     >
-      favourites
+      {t("routes.favourites")}
     </NavLink>
   </div>
 );

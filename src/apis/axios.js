@@ -1,4 +1,5 @@
 import axios from "axios";
+import { keysToCamelCase } from "neetocist";
 import { OMDB_API, OMDB_API_KEY } from "src/constants";
 
 const requestInterceptor = () => {
@@ -15,7 +16,7 @@ const responseInterceptor = () => {
       throw new Error(response.data.Error);
     }
 
-    return response.data;
+    return keysToCamelCase(response.data);
   });
 };
 

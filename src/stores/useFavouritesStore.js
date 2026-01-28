@@ -2,6 +2,8 @@ import { existsBy, removeBy } from "neetocist";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
+import { FAVOURITE_KEY } from "./constants";
+
 const useFavouritesStore = create(
   persist(
     (set, get) => ({
@@ -27,7 +29,7 @@ const useFavouritesStore = create(
       },
     }),
     {
-      name: "cine-searcher-favourites",
+      name: FAVOURITE_KEY,
     }
   )
 );

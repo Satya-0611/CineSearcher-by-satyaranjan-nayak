@@ -31,14 +31,13 @@ const History = () => {
 
   const deleteMovie = movie => {
     removeFromMoviesHistory(movie);
-    console.log("called");
   };
 
   const handleSubmit = () => {
     if (!isEmpty(moviesHistory)) {
       clearAllHistory();
     } else {
-      Toastr.error("Movies history is empty");
+      Toastr.error(t("errorMessages.noHistory"));
     }
     setIsAlertOpen(false);
   };

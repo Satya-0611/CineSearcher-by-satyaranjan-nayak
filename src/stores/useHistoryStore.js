@@ -1,6 +1,8 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
+import { HISTORY_KEY } from "./constants";
+
 const useHistoryStore = create(
   persist(
     (set, get) => ({
@@ -42,7 +44,7 @@ const useHistoryStore = create(
         }),
     }),
     {
-      name: "cine-searcher-history",
+      name: HISTORY_KEY,
     }
   )
 );

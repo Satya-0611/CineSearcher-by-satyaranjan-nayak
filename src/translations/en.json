@@ -31,12 +31,28 @@
   "favourites": {
     "noData": "No favourites added",
     "add": "Add to favourites",
-    "remove": "Remove from favourites"
+    "remove": "Remove from favourites",
+    "rating": "Rating"
   },
   "header": {
     "title": {
       "cine": "Cine",
       "searcher": "Searcher"
     }
+  },
+  "errorMessages": {
+    "year": "Year can't be in future",
+    "noHistory": "Movies history is empty"
+  },
+  "routes": {
+    "home": "Home",
+    "favourites": "Favourites"
+  },
+  "filter": {
+    "title": "Filter",
+    "year": "Year",
+    "movie": "Movie",
+    "type": "Type",
+    "series": "Series"
   }
 }

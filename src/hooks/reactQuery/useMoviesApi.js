@@ -1,6 +1,6 @@
 import { QUERY_KEYS } from "constants/query";
 
-import moviesApi from "apis/movies";
+import movies from "apis/movies";
 import { useQuery, keepPreviousData } from "react-query";
 
 export const useShowMovies = (
@@ -9,8 +9,7 @@ export const useShowMovies = (
 ) =>
   useQuery({
     queryKey: [QUERY_KEYS.MOVIES, searchKey, page, pageSize, year, type],
-    queryFn: () =>
-      moviesApi.searchMovies(searchKey, page, pageSize, year, type),
+    queryFn: () => movies.searchMovies(searchKey, page, pageSize, year, type),
     placeholderData: keepPreviousData,
     retry: false,
     enabled: !!searchKey.trim(),
@@ -20,6 +19,6 @@ export const useShowMovies = (
 export const useShowMovieDetails = imdbID =>
   useQuery({
     queryKey: [imdbID],
-    queryFn: () => moviesApi.getMovieDetails(imdbID),
+    queryFn: () => movies.getMovieDetails(imdbID),
     enabled: !!imdbID, //to not fetch for null ids
   });

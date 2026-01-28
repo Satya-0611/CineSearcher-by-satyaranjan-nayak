@@ -39,16 +39,14 @@ const HistoryListItem = ({
         tooltipProps={{ content: t("movie.removeMovie") }}
         onClick={() => setIsAlertOpen(true)}
       />
-      {isAlertOpen && (
-        <Alert
-          isOpen={isAlertOpen}
-          message={t("history.removeMovieAlert.message")}
-          submitButtonLabel="Delete"
-          title={t("history.removeMovieAlert.title")}
-          onClose={() => setIsAlertOpen(false)}
-          onSubmit={handleDeleteMovie}
-        />
-      )}
+      <Alert
+        isOpen={isAlertOpen}
+        message={t("history.removeMovieAlert.message")}
+        submitButtonLabel="Delete"
+        title={t("history.removeMovieAlert.title")}
+        onClose={() => setIsAlertOpen(false)}
+        onSubmit={handleDeleteMovie}
+      />
     </div>
   );
 };
