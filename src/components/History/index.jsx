@@ -76,7 +76,7 @@ const History = () => {
       </div>
       <Alert
         isOpen={isAlertOpen}
-        message={t("history.clearAllAlert.message")}
+        message={t("history.removeAlertDescription")}
         size="small"
         submitButtonLabel="Delete"
         title={t("history.clearAllAlert.title")}

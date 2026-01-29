@@ -41,9 +41,9 @@ const HistoryListItem = ({
       />
       <Alert
         isOpen={isAlertOpen}
-        message={t("history.removeMovieAlert.message")}
+        message={t("history.removeAlertDescription")}
         submitButtonLabel="Delete"
-        title={t("history.removeMovieAlert.title")}
+        title={t("history.removeAlertDescription", { movie })}
         onClose={() => setIsAlertOpen(false)}
         onSubmit={handleDeleteMovie}
       />

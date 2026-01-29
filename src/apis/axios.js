@@ -16,6 +16,9 @@ const responseInterceptor = () => {
       throw new Error(response.data.Error);
     }
 
+    console.log(response.data);
+    console.log(keysToCamelCase(response.data));
+
     return keysToCamelCase(response.data);
   });
 };

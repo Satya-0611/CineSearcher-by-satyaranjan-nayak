@@ -20,13 +20,12 @@
     "noData": "There are no history to show",
     "tabTitle": "View history",
     "clearAllAlert": {
-      "title": "Clear history",
-      "message": "Are you sure you want to delete all history"
+      "title": "Clear history"
     },
     "removeMovieAlert": {
-      "title": "Remove movie from history",
-      "message": "Are you sure you want delete"
-    }
+      "title": "Want to delete {{movie}} from history"
+    },
+    "removeAlertDescription": "This action can't be undone"
   },
   "favourites": {
     "noData": "No favourites added",

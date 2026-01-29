@@ -11,7 +11,7 @@ const MovieListItem = ({ Poster, Title, Year, t }) => (
     <Typography className="text-lg text-gray-900" weight="semibold">
       {Title}
     </Typography>
-    <Typography className="mt-1 text-gray-500">{`Movie . ${Year}`}</Typography>
+    <Typography className="mt-1 text-gray-500">{`Movie. ${Year}`}</Typography>
     <button
       className="hover:scale-1.1 mt-auto pt-3 text-sm font-bold text-[#4a90e2] hover:underline"
       style={{ color: "#4a90e2" }}
