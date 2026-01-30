@@ -90,7 +90,7 @@
     "antd": "4.24.3",
     "axios": "1.6.0",
     "browserslist": "^4.18.1",
-    "camelcase": "^6.2.1",
+    "camelcase-keys": "^10.0.2",
     "classnames": "^2.5.1",
     "dayjs": "^1.11.19",
     "formik": "2.2.0",

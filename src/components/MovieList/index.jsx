@@ -64,7 +64,7 @@ const MovieList = () => {
     setIsFilterOpen(false);
   };
 
-  const movies = data?.Search || [];
+  const movies = data?.search || [];
   const totalResults = data?.totalResults || 0;
 
   const handlePageNavigation = newPage => {
@@ -106,7 +106,7 @@ const MovieList = () => {
               <div
                 className="cursor-pointer"
                 key={movie.imdbID}
-                onClick={() => handleOpenMovie(movie.imdbID, movie.Title)}
+                onClick={() => handleOpenMovie(movie.imdbID, movie.title)}
               >
                 <MovieListItem {...movie} />
               </div>

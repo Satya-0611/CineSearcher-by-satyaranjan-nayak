@@ -1,5 +1,5 @@
 import axios from "axios";
-import { keysToCamelCase } from "neetocist";
+import camelcaseKeys from "camelcase-keys";
 import { OMDB_API, OMDB_API_KEY } from "src/constants";
 
 const requestInterceptor = () => {
@@ -16,10 +16,10 @@ const responseInterceptor = () => {
       throw new Error(response.data.Error);
     }
 
-    console.log(response.data);
-    console.log(keysToCamelCase(response.data));
-
-    return keysToCamelCase(response.data);
+    return camelcaseKeys(response.data, {
+      deep: true,
+      preserveConsecutiveUppercase: true,
+    });
   });
 };
 

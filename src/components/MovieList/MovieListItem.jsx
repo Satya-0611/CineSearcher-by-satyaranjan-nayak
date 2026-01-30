@@ -1,17 +1,17 @@
 import { Typography } from "neetoui";
 import { withTranslation } from "react-i18next";
 
-const MovieListItem = ({ Poster, Title, Year, t }) => (
+const MovieListItem = ({ poster, title, year, t }) => (
   <div className="flex h-full w-full flex-col justify-between rounded-xl border p-4 shadow-xl">
     <img
-      alt={`${Title} poster`}
+      alt={`${title} poster`}
       className="mb-4 h-64 w-full rounded-md object-cover"
-      src={Poster}
+      src={poster}
     />
     <Typography className="text-lg text-gray-900" weight="semibold">
-      {Title}
+      {title}
     </Typography>
-    <Typography className="mt-1 text-gray-500">{`Movie. ${Year}`}</Typography>
+    <Typography className="mt-1 text-gray-500">{`Movie. ${year}`}</Typography>
     <button
       className="hover:scale-1.1 mt-auto pt-3 text-sm font-bold text-[#4a90e2] hover:underline"
       style={{ color: "#4a90e2" }}

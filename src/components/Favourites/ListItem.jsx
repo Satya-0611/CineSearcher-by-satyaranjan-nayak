@@ -3,7 +3,7 @@ import React from "react";
 import { Typography } from "neetoui";
 import { withTranslation } from "react-i18next";
 
-const FavouriteListItem = ({ Title, imdbRating, t }) => (
+const FavouriteListItem = ({ title, imdbRating, t }) => (
   <div className="flex w-full items-center justify-between rounded-md border border-gray-200 bg-[#f9f9f9] px-6 py-5 transition-colors hover:bg-gray-100">
     <div className="flex-1 pr-4">
       <Typography
@@ -11,7 +11,7 @@ const FavouriteListItem = ({ Title, imdbRating, t }) => (
         style="h4"
         weight="semibold"
       >
-        {Title}
+        {title}
       </Typography>
     </div>
     <div className="flex items-center gap-2">

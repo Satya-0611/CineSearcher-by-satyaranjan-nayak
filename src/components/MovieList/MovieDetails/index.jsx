@@ -37,22 +37,22 @@ const MovieDetails = ({ imdbID, onClose, isOpen }) => {
               className="flex gap-3 font-bold text-gray-800"
               style="h3"
             >
-              {movieDetails?.Title}
+              {movieDetails?.title}
               <AddToFavourites {...movieDetails} />
             </Typography>
-            <GenreTags genres={movieDetails?.Genre} />
+            <GenreTags genres={movieDetails?.genre} />
           </div>
           <div className="flex flex-col items-center gap-8 md:flex-row">
             {/* Left - Image */}
             <PosterImage
-              alt={movieDetails?.Title}
+              alt={movieDetails?.title}
               className="h-auto w-full max-w-md rounded-lg object-cover shadow-md md:w-64"
-              src={movieDetails?.Poster}
+              src={movieDetails?.poster}
             />
             {/* Right - Description */}
             <div className="flex flex-1 flex-col">
               <Typography className="mb-6 text-gray-600">
-                {movieDetails?.Plot}
+                {movieDetails?.plot}
               </Typography>
               <MovieDescription movieDetails={movieDetails} />
             </div>

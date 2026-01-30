@@ -5,7 +5,7 @@ import { Button } from "neetoui";
 import { useTranslation } from "react-i18next";
 import useFavouritesStore from "stores/useFavouritesStore";
 
-const AddToFavourites = ({ Title, imdbRating, imdbID }) => {
+const AddToFavourites = ({ title, imdbRating, imdbID }) => {
   const { isFavourite, addToFavourites, removeFromFavourites } =
     useFavouritesStore.pick();
 
@@ -18,7 +18,7 @@ const AddToFavourites = ({ Title, imdbRating, imdbID }) => {
     } else {
       addToFavourites({
         imdbID,
-        Title,
+        title,
         imdbRating,
       });
     }
