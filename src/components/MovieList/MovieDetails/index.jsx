@@ -1,8 +1,8 @@
-import React, { useEffect } from "react";
+import React from "react";
 
 import AddToFavourites from "components/commons/AddToFavourites";
 import { useShowMovieDetails } from "hooks/reactQuery/useMoviesApi";
-import { Modal, Typography, Spinner, Toastr } from "neetoui";
+import { Modal, Typography, Spinner } from "neetoui";
 
 import MovieDescription from "./Description";
 import GenreTags from "./GenreTags";
@@ -10,18 +10,7 @@ import GenreTags from "./GenreTags";
 import PosterImage from "../PosterImage";
 
 const MovieDetails = ({ imdbID, onClose, isOpen }) => {
-  const {
-    data: movieDetails = {},
-    isLoading,
-    isError,
-    error,
-  } = useShowMovieDetails(imdbID);
-
-  useEffect(() => {
-    if (isError && error) {
-      Toastr.error(error.message);
-    }
-  }, [isError, error]);
+  const { data: movieDetails = {}, isLoading } = useShowMovieDetails(imdbID);
 
   return (
     <Modal isOpen={isOpen} size="large" onClose={onClose}>

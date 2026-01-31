@@ -1,9 +1,11 @@
 import { Typography } from "neetoui";
 import { withTranslation } from "react-i18next";
 
+import PosterImage from "./PosterImage";
+
 const MovieListItem = ({ poster, title, year, t }) => (
   <div className="flex h-full w-full flex-col justify-between rounded-xl border p-4 shadow-xl">
-    <img
+    <PosterImage
       alt={`${title} poster`}
       className="mb-4 h-64 w-full rounded-md object-cover"
       src={poster}

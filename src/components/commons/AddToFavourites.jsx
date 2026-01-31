@@ -30,7 +30,11 @@ const AddToFavourites = ({ title, imdbRating, imdbID }) => {
       className="rounded-full border"
       icon={isLiked ? RatingFilled : Rating}
       style="text"
-      tooltipProps={isLiked ? null : { content: t("favourites.add") }}
+      tooltipProps={
+        isLiked
+          ? { content: t("favourites.remove") }
+          : { content: t("favourites.add") }
+      }
       onClick={toggleFavourite}
     />
   );

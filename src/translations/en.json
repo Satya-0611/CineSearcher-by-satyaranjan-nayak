@@ -53,5 +53,9 @@
     "movie": "Movie",
     "type": "Type",
     "series": "Series"
+  },
+  "error": {
+    "noInternetConnection": "No internet connection",
+    "networkError": "Network Error"
   }
 }

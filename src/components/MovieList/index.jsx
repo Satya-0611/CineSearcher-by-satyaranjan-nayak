@@ -5,7 +5,7 @@ import { useShowMovies } from "hooks/reactQuery/useMoviesApi";
 import useDebounce from "hooks/useDebounce";
 import { useQueryParams } from "hooks/useQueryParams";
 import { Filter, Search } from "neetoicons";
-import { Input, NoData, Toastr, Pagination } from "neetoui";
+import { Input, NoData, Pagination } from "neetoui";
 import { isEmpty } from "ramda";
 import { useTranslation } from "react-i18next";
 import useHistoryStore from "stores/useHistoryStore";
@@ -51,7 +51,7 @@ const MovieList = () => {
     updateQueryParams({ movieId: "" }, "push");
   };
 
-  const { data, isLoading, isError, error } = useShowMovies({
+  const { data, isLoading } = useShowMovies({
     searchKey: queryFromUrl,
     page,
     pageSize,
@@ -70,10 +70,6 @@ const MovieList = () => {
   const handlePageNavigation = newPage => {
     updateQueryParams({ page: newPage }, "push");
   };
-
-  useEffect(() => {
-    if (isError && error) Toastr.error(error.message);
-  }, [isError, error]);
 
   if (isLoading && isEmpty(movies) && !!queryFromUrl) return <PageLoader />;
 
