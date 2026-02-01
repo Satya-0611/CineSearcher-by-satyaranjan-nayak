@@ -18,19 +18,20 @@ import PageLoader from "../commons/PageLoader";
 
 const MovieList = () => {
   const [isFilterOpen, setIsFilterOpen] = useState(false);
-  const { queryParams, updateQueryParams } = useQueryParams();
-  const { t } = useTranslation();
-
-  const queryFromUrl = queryParams.get("q") || "";
-  const page = Number(queryParams.get("page") || DEFAULT_PAGE_INDEX);
-  const pageSize = Number(queryParams.get("page_size") || DEFAULT_PAGE_SIZE);
-  const movieIdFromUrl = queryParams.get("movie_id");
-  const yearFromUrl = queryParams.get("year");
-  const typeFromUrl = queryParams.get("type");
-
-  const [searchKey, setSearchKey] = useState(queryFromUrl);
   const searchInputRef = useRef(null);
   const addToMoviesHistory = useHistoryStore(state => state.addToMoviesHistory);
+  const { queryParams, updateQueryParams } = useQueryParams();
+  const { t } = useTranslation();
+  const {
+    q: queryFromUrl,
+    movieId: movieIdFromUrl,
+    pageSize = DEFAULT_PAGE_SIZE,
+    year: yearFromUrl,
+    type: typeFromUrl,
+  } = queryParams;
+  const page = Number(queryParams.page) || DEFAULT_PAGE_INDEX;
+
+  const [searchKey, setSearchKey] = useState(queryFromUrl);
   const debouncedSearchKey = useDebounce(searchKey);
 
   useEffect(() => {
@@ -51,11 +52,11 @@ const MovieList = () => {
     updateQueryParams({ movieId: "" }, "push");
   };
 
-  const { data, isLoading } = useShowMovies({
-    searchKey: queryFromUrl,
+  const { data = {}, isLoading } = useShowMovies({
+    s: queryFromUrl,
     page,
     pageSize,
-    year: yearFromUrl,
+    y: yearFromUrl,
     type: typeFromUrl,
   });
 

@@ -2,7 +2,6 @@ import { useState } from "react";
 
 import dayjs from "dayjs";
 import { Typography, Input, Checkbox, Button } from "neetoui";
-import { isEmpty } from "ramda";
 import { useTranslation } from "react-i18next";
 
 const FilterUI = ({ initialValues, onSubmit, onClose }) => {
@@ -32,7 +31,7 @@ const FilterUI = ({ initialValues, onSubmit, onClose }) => {
     let typeParam = type.join(",");
 
     // if both type selected
-    if (isEmpty(type) !== 1) {
+    if (type.length !== 1) {
       typeParam = "";
     }
 

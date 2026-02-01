@@ -1,14 +1,24 @@
 import axios from "axios";
 import camelcaseKeys from "camelcase-keys";
 import { t } from "i18next";
+import { serializeKeysToSnakeCase } from "neetocist";
 import { Toastr } from "neetoui";
+import { evolve } from "ramda";
 import { OMDB_API, OMDB_API_KEY } from "src/constants";
 
 const requestInterceptor = () => {
   axios.interceptors.request.use(config => {
-    config.params = { ...config.params, apiKey: OMDB_API_KEY };
+    const newConfig = evolve(
+      { data: serializeKeysToSnakeCase, params: serializeKeysToSnakeCase },
+      config
+    );
 
-    return config;
+    newConfig.params = {
+      ...newConfig.params,
+      apiKey: OMDB_API_KEY,
+    };
+
+    return newConfig;
   });
 };
 
