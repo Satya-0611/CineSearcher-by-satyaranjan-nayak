@@ -13,16 +13,19 @@ const AddToFavourites = ({ title, imdbRating, imdbID }) => {
   const { t } = useTranslation();
 
   const toggleFavourite = () => {
-    if (isLiked) {
-      removeFromFavourites(imdbID);
-    } else {
-      addToFavourites({
-        imdbID,
-        title,
-        imdbRating,
-      });
-    }
-    setIsLiked(!isLiked);
+    setIsLiked(isLiked => {
+      if (isLiked) {
+        removeFromFavourites(imdbID);
+      } else {
+        addToFavourites({
+          imdbID,
+          title,
+          imdbRating,
+        });
+      }
+
+      return !isLiked;
+    });
   };
 
   return (

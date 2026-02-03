@@ -1,3 +1,4 @@
+import { Tag } from "neetoui";
 import { isEmpty } from "ramda";
 
 const GenreTags = ({ genres }) => {
@@ -7,12 +8,14 @@ const GenreTags = ({ genres }) => {
   return (
     <div className="mt-4 flex flex-wrap gap-2">
       {genreList.map(genre => (
-        <span
-          className="rounded-full bg-gray-100 px-3 py-1 text-xs font-semibold text-gray-600"
+        <Tag
+          className="font-semibold text-gray-700"
           key={genre}
-        >
-          {genre}
-        </span>
+          label={genre}
+          size="small"
+          style="secondary"
+          type="solid"
+        />
       ))}
     </div>
   );

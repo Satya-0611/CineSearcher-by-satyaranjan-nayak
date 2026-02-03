@@ -4,7 +4,7 @@ import dayjs from "dayjs";
 import { Typography, Input, Checkbox, Button } from "neetoui";
 import { useTranslation } from "react-i18next";
 
-const FilterUI = ({ initialValues, onSubmit, onClose }) => {
+const FilterUI = ({ initialValues, onSubmit, onClose, isOpen }) => {
   const [year, setYear] = useState(initialValues?.year || "");
   const [yearError, setYearError] = useState("");
   const [type, setType] = useState(() => {
@@ -38,6 +38,8 @@ const FilterUI = ({ initialValues, onSubmit, onClose }) => {
     onSubmit({ year, type: typeParam });
     onClose();
   };
+
+  if (!isOpen) return null;
 
   return (
     <div className="absolute right-96 top-12 z-10 w-80 rounded-lg border border-gray-200 bg-white p-5 shadow-lg">

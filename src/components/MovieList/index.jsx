@@ -1,8 +1,9 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 
-import MovieDetails from "components/MovieList/MovieDetails";
+import MovieDetails from "components/MovieList/Details";
 import { useShowMovies } from "hooks/reactQuery/useMoviesApi";
 import useDebounce from "hooks/useDebounce";
+import useKeyboardNavigation from "hooks/useKeyboardNavigation";
 import { useQueryParams } from "hooks/useQueryParams";
 import { Filter, Search } from "neetoicons";
 import { Input, NoData, Pagination } from "neetoui";
@@ -12,14 +13,14 @@ import useHistoryStore from "stores/useHistoryStore";
 
 import { DEFAULT_PAGE_INDEX, DEFAULT_PAGE_SIZE } from "./constants";
 import FilterUI from "./FilterUI";
-import MovieListItem from "./MovieListItem";
+import MovieListItem from "./Item";
 
 import PageLoader from "../commons/PageLoader";
 
 const MovieList = () => {
   const [isFilterOpen, setIsFilterOpen] = useState(false);
-  const searchInputRef = useRef(null);
-  const addToMoviesHistory = useHistoryStore(state => state.addToMoviesHistory);
+  const searchInputRef = useKeyboardNavigation();
+  const { addToMoviesHistory } = useHistoryStore.pick();
   const { queryParams, updateQueryParams } = useQueryParams();
   const { t } = useTranslation();
   const {
@@ -53,7 +54,7 @@ const MovieList = () => {
   };
 
   const { data = {}, isLoading } = useShowMovies({
-    s: queryFromUrl,
+    s: queryFromUrl?.trim(),
     page,
     pageSize,
     y: yearFromUrl,
@@ -86,13 +87,12 @@ const MovieList = () => {
         />
         {/* Filter option */}
         <Filter onClick={() => setIsFilterOpen(true)} />
-        {isFilterOpen && (
-          <FilterUI
-            initialValues={{ type: typeFromUrl, year: yearFromUrl }}
-            onClose={() => setIsFilterOpen(false)}
-            onSubmit={handleApplyFilters}
-          />
-        )}
+        <FilterUI
+          initialValues={{ type: typeFromUrl, year: yearFromUrl }}
+          isOpen={isFilterOpen}
+          onClose={() => setIsFilterOpen(false)}
+          onSubmit={handleApplyFilters}
+        />
       </div>
       {isEmpty(movies) ? (
         <NoData title={t("movie.noData")} />

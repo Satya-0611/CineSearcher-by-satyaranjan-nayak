@@ -1,9 +1,9 @@
 import { Typography } from "neetoui";
-import { withTranslation } from "react-i18next";
+import withT from "utils/withT";
 
 import PosterImage from "./PosterImage";
 
-const MovieListItem = ({ poster, title, year, t }) => (
+const MovieListItem = ({ poster, title, year, type, t }) => (
   <div className="flex h-full w-full flex-col justify-between rounded-xl border p-4 shadow-xl">
     <PosterImage
       alt={`${title} poster`}
@@ -14,7 +14,7 @@ const MovieListItem = ({ poster, title, year, t }) => (
       {title}
     </Typography>
     <Typography className="mt-1 text-gray-500">
-      Movie &middot; ${year}
+      {t(`titles.${type}`)} &middot; {year}
     </Typography>
     <button
       className="hover:scale-1.1 mt-auto pt-3 text-sm font-bold text-[#4a90e2] hover:underline"
@@ -25,4 +25,4 @@ const MovieListItem = ({ poster, title, year, t }) => (
   </div>
 );
 
-export default withTranslation()(MovieListItem);
+export default withT(MovieListItem);

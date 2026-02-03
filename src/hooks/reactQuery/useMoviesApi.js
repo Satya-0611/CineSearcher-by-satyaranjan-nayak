@@ -15,7 +15,7 @@ export const useShowMovies = (params, options = {}) =>
 
 export const useShowMovieDetails = imdbID =>
   useQuery({
-    queryKey: [imdbID],
+    queryKey: [QUERY_KEYS.MOVIE, imdbID],
     queryFn: () => movies.getMovieDetails(imdbID),
-    enabled: !!imdbID, //to not fetch for null ids
+    enabled: !!imdbID,
   });
