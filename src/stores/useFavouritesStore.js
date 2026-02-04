@@ -11,7 +11,6 @@ const useFavouritesStore = create(
 
       addToFavourites: movie => {
         const { favourites } = get();
-        // duplicate check
         if (!existsBy({ imdbID: movie.imdbID }, favourites)) {
           set({ favourites: [movie, ...favourites] });
         }

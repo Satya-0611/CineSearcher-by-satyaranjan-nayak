@@ -5,7 +5,7 @@
     "removeMovie": "remove movie from history",
     "director": "Director:",
     "actors": "Actors:",
-    "boxOffice": "BoxOffice:",
+    "boxOffice": "Box Office:",
     "year": "Year:",
     "runtime": "Runtime:",
     "language": "Language:",
@@ -19,8 +19,9 @@
   "history": {
     "noData": "There are no history to show",
     "tabTitle": "View history",
+    "clearAllBtn": "Clear\u00A0all",
     "clearAllAlert": {
-      "title": "Clear history"
+      "title": "Clear movies history"
     },
     "removeMovieAlert": {
       "title": "Want to delete {{movie}} from history"
@@ -35,13 +36,19 @@
   },
   "header": {
     "title": {
-      "cine": "Cine",
+      "cine": "Cine\u00a0",
       "searcher": "Searcher"
     }
   },
   "errorMessages": {
     "year": "Year can't be in future",
-    "noHistory": "Movies history is empty"
+    "noHistory": "Movies history is empty",
+    "noInternetConnection": "No internet connection",
+    "networkError": "Network Error",
+    "yearType": "Only numbers are allowed",
+    "yearMaxLimit": "Year can't be in future",
+    "yearMinLimit": "Year must be greater than or equal to 1800",
+    "noSearchKey": "No search key present"
   },
   "routes": {
     "home": "Home",
@@ -54,8 +61,9 @@
     "type": "Type",
     "series": "Series"
   },
-  "error": {
-    "noInternetConnection": "No internet connection",
-    "networkError": "Network Error"
+  "titles": {
+    "movie": "Movie",
+    "series": "Series",
+    "game": "Game"
   }
 }

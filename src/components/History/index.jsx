@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 
-import { Alert, Toastr } from "neetoui";
+import classNames from "classnames";
+import { isNotEmpty } from "neetocist";
+import { Alert } from "neetoui";
 import { isEmpty } from "ramda";
 import { useTranslation } from "react-i18next";
 import useHistoryStore from "stores/useHistoryStore";
@@ -29,43 +31,39 @@ const History = () => {
     }
   }, [activeMovie]);
 
-  const deleteMovie = movie => {
-    removeFromMoviesHistory(movie);
-  };
-
   const handleSubmit = () => {
-    if (!isEmpty(moviesHistory)) {
+    if (isNotEmpty(moviesHistory)) {
       clearAllHistory();
-    } else {
-      Toastr.error(t("errorMessages.noHistory"));
     }
     setIsAlertOpen(false);
   };
 
   return (
-    //history container
     <div className="mx-auto max-w-md ">
       <div className="flex px-4">
         <h2 className="w-full bg-white pb-6 pt-8 text-xl font-bold text-gray-800">
           {t("history.tabTitle")}
         </h2>
         <button
-          className="font-bolder text-red-600"
+          disabled={isEmpty(moviesHistory)}
+          className={classNames("font-bolder text-red-600", {
+            hidden: isEmpty(moviesHistory),
+          })}
           onClick={() => setIsAlertOpen(true)}
         >
-          Clear&nbsp;all
+          {t("history.clearAllBtn")}
         </button>
       </div>
-      <div className="custom-scrollbar max-h-[400px] space-y-3 pb-20">
-        {!isEmpty(moviesHistory) > 0 ? (
-          moviesHistory.map(movie => (
+      <div className="custom-scrollbar space-y-3 pb-5">
+        {isNotEmpty(moviesHistory) > 0 ? (
+          moviesHistory.map(movieName => (
             <HistoryListItem
-              key={movie}
+              key={movieName}
               {...{
-                movie,
+                movieName,
                 activeMovie,
                 setActiveMovie,
-                deleteMovie,
+                deleteMovie: removeFromMoviesHistory,
                 itemRefs,
               }}
             />

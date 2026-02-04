@@ -1,9 +1,10 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 
-import MovieDetails from "components/MovieList/MovieDetails";
+import MovieDetails from "components/MovieList/Details";
 import { useShowMovies } from "hooks/reactQuery/useMoviesApi";
 import useDebounce from "hooks/useDebounce";
-import { useQueryParams } from "hooks/useQueryParams";
+import useKeyboardNavigation from "hooks/useKeyboardNavigation";
+import useQueryParams from "hooks/useQueryParams";
 import { Filter, Search } from "neetoicons";
 import { Input, NoData, Pagination } from "neetoui";
 import { isEmpty } from "ramda";
@@ -11,15 +12,15 @@ import { useTranslation } from "react-i18next";
 import useHistoryStore from "stores/useHistoryStore";
 
 import { DEFAULT_PAGE_INDEX, DEFAULT_PAGE_SIZE } from "./constants";
-import FilterUI from "./FilterUI";
-import MovieListItem from "./MovieListItem";
+import FilterUI from "./Filter";
+import MovieListItem from "./Item";
 
 import PageLoader from "../commons/PageLoader";
 
 const MovieList = () => {
   const [isFilterOpen, setIsFilterOpen] = useState(false);
-  const searchInputRef = useRef(null);
-  const addToMoviesHistory = useHistoryStore(state => state.addToMoviesHistory);
+  const searchInputRef = useKeyboardNavigation();
+  const { addToMoviesHistory } = useHistoryStore.pick();
   const { queryParams, updateQueryParams } = useQueryParams();
   const { t } = useTranslation();
   const {
@@ -45,31 +46,26 @@ const MovieList = () => {
 
   const handleOpenMovie = (id, title) => {
     addToMoviesHistory(title);
-    updateQueryParams({ movieId: id }, "push");
+    updateQueryParams({ movieId: id });
   };
 
   const handleCloseMovie = () => {
-    updateQueryParams({ movieId: "" }, "push");
+    updateQueryParams({ movieId: "" });
   };
 
   const { data = {}, isLoading } = useShowMovies({
-    s: queryFromUrl,
+    s: queryFromUrl?.trim(),
     page,
     pageSize,
     y: yearFromUrl,
     type: typeFromUrl,
   });
 
-  const handleApplyFilters = newFilters => {
-    updateQueryParams({ ...newFilters, page: DEFAULT_PAGE_INDEX });
-    setIsFilterOpen(false);
-  };
-
   const movies = data?.search || [];
   const totalResults = data?.totalResults || 0;
 
   const handlePageNavigation = newPage => {
-    updateQueryParams({ page: newPage }, "push");
+    updateQueryParams({ page: newPage });
   };
 
   if (isLoading && isEmpty(movies) && !!queryFromUrl) return <PageLoader />;
@@ -86,13 +82,11 @@ const MovieList = () => {
         />
         {/* Filter option */}
         <Filter onClick={() => setIsFilterOpen(true)} />
-        {isFilterOpen && (
-          <FilterUI
-            initialValues={{ type: typeFromUrl, year: yearFromUrl }}
-            onClose={() => setIsFilterOpen(false)}
-            onSubmit={handleApplyFilters}
-          />
-        )}
+        <FilterUI
+          initialValues={{ type: typeFromUrl, year: yearFromUrl }}
+          isOpen={isFilterOpen}
+          onClose={() => setIsFilterOpen(false)}
+        />
       </div>
       {isEmpty(movies) ? (
         <NoData title={t("movie.noData")} />

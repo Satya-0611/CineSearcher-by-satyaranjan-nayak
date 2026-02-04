@@ -23,8 +23,8 @@ const requestInterceptor = () => {
 };
 
 const showErrorToastr = errorMessage => {
-  if (errorMessage === t("error.networkError")) {
-    Toastr.error(t("error.noInternetConnection"));
+  if (errorMessage === t("errorMessages.networkError")) {
+    Toastr.error(t("errorMessages.noInternetConnection"));
   } else {
     Toastr.error(errorMessage);
   }
@@ -34,7 +34,6 @@ const responseInterceptor = () => {
   axios.interceptors.response.use(
     response => {
       if (response.data.Response === "False") {
-        console.log(response.data.Error);
         showErrorToastr(response.data.Error);
       }
 

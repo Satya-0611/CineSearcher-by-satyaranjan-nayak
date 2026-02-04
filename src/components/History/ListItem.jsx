@@ -3,10 +3,10 @@ import { useState } from "react";
 import classNames from "classnames";
 import { Delete } from "neetoicons";
 import { Alert, Button } from "neetoui";
-import { withTranslation } from "react-i18next";
+import withT from "utils/withT";
 
-const HistoryListItem = ({
-  movie,
+const ListItem = ({
+  movieName,
   activeMovie,
   setActiveMovie,
   deleteMovie,
@@ -15,24 +15,25 @@ const HistoryListItem = ({
 }) => {
   const [isAlertOpen, setIsAlertOpen] = useState(false);
   const handleDeleteMovie = () => {
-    deleteMovie(movie);
+    deleteMovie(movieName);
     setIsAlertOpen(false);
   };
+  const isActiveMovie = activeMovie === movieName;
 
   return (
     <div
-      key={movie}
-      ref={el => (itemRefs.current[movie] = el)}
+      key={movieName}
+      ref={element => (itemRefs.current[movieName] = element)}
       className={classNames(
-        "flex cursor-pointer justify-between rounded-xl px-4 py-3 font-medium transition-colors duration-200",
+        "flex cursor-pointer items-center justify-between rounded-xl px-4 py-3 font-medium transition-colors duration-200",
         {
-          "bg-blue-600 text-white shadow-md": activeMovie === movie,
-          "bg-blue-100 text-gray-700 hover:bg-blue-100": activeMovie !== movie,
+          "bg-blue-600 text-white shadow-md": isActiveMovie,
+          "bg-blue-100 text-gray-700 hover:bg-blue-100": !isActiveMovie,
         }
       )}
-      onClick={() => setActiveMovie(movie)}
+      onClick={() => setActiveMovie(movieName)}
     >
-      {movie}
+      {movieName}
       <Button
         icon={Delete}
         style="text"
@@ -43,7 +44,7 @@ const HistoryListItem = ({
         isOpen={isAlertOpen}
         message={t("history.removeAlertDescription")}
         submitButtonLabel="Delete"
-        title={t("history.removeAlertDescription", { movie })}
+        title={t("history.removeMovieAlert.title", { movie: movieName })}
         onClose={() => setIsAlertOpen(false)}
         onSubmit={handleDeleteMovie}
       />
@@ -51,4 +52,4 @@ const HistoryListItem = ({
   );
 };
 
-export default withTranslation()(HistoryListItem);
+export default withT(ListItem);

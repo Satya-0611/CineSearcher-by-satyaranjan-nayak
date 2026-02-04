@@ -3,3 +3,7 @@
 @import "tailwindcss/base";
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
+
+#root {
+  @apply flex flex-col h-screen;
+}
