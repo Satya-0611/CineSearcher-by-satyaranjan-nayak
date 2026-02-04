@@ -16,6 +16,7 @@ const Form = ({ onClose, t }) => {
     if (dirty) {
       debouncedSubmit();
     }
+    // eslint-disable-next-line
   }, [values]);
 
   return (
