@@ -54,7 +54,7 @@ const History = () => {
           {t("history.clearAllBtn")}
         </button>
       </div>
-      <div className="custom-scrollbar max-h-[400px] space-y-3 pb-20">
+      <div className="custom-scrollbar space-y-3 pb-5">
         {isNotEmpty(moviesHistory) > 0 ? (
           moviesHistory.map(movieName => (
             <HistoryListItem

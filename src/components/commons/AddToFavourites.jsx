@@ -30,7 +30,6 @@ const AddToFavourites = ({ title, imdbRating, imdbID }) => {
 
   return (
     <Button
-      className="rounded-full border"
       icon={isLiked ? RatingFilled : Rating}
       style="text"
       tooltipProps={

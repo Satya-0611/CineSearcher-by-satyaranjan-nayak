@@ -21,7 +21,7 @@
     "tabTitle": "View history",
     "clearAllBtn": "Clear\u00A0all",
     "clearAllAlert": {
-      "title": "Clear history"
+      "title": "Clear movies history"
     },
     "removeMovieAlert": {
       "title": "Want to delete {{movie}} from history"
@@ -47,7 +47,8 @@
     "networkError": "Network Error",
     "yearType": "Only numbers are allowed",
     "yearMaxLimit": "Year can't be in future",
-    "yearMinLimit": "Year can't be less than {{minYear}}"
+    "yearMinLimit": "Year must be greater than or equal to 1800",
+    "noSearchKey": "No search key present"
   },
   "routes": {
     "home": "Home",

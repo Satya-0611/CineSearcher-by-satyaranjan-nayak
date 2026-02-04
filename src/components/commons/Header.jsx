@@ -4,7 +4,7 @@ import routes from "routes";
 import withT from "utils/withT";
 
 const Header = ({ t }) => (
-  <div className="sticky top-0 z-50 flex w-full gap-6 border-b bg-white px-6 py-4 shadow-sm">
+  <div className="sticky top-0 z-50 flex gap-6 bg-white px-6 py-4 shadow-sm">
     <div className="flex text-2xl font-bold">
       <Typography className="text-blue-600" style="h3" weight="bold">
         {t("header.title.cine")}

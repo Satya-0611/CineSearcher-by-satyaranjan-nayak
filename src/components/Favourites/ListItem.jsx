@@ -4,7 +4,7 @@ import { Typography } from "neetoui";
 import withT from "utils/withT";
 
 const FavouriteListItem = ({ title, imdbRating, t }) => (
-  <div className="flex w-full items-center justify-between rounded-md border border-gray-200 bg-[#f9f9f9] px-6 py-5 transition-colors hover:bg-gray-100">
+  <div className="flex w-full items-center justify-between rounded-md border border-gray-200 px-6 py-5 transition-colors hover:bg-gray-100">
     <div className="flex-1 pr-4">
       <Typography
         className="text-left text-gray-900"

@@ -4,7 +4,7 @@ import MovieDetails from "components/MovieList/Details";
 import { useShowMovies } from "hooks/reactQuery/useMoviesApi";
 import useDebounce from "hooks/useDebounce";
 import useKeyboardNavigation from "hooks/useKeyboardNavigation";
-import { useQueryParams } from "hooks/useQueryParams";
+import useQueryParams from "hooks/useQueryParams";
 import { Filter, Search } from "neetoicons";
 import { Input, NoData, Pagination } from "neetoui";
 import { isEmpty } from "ramda";
@@ -12,7 +12,7 @@ import { useTranslation } from "react-i18next";
 import useHistoryStore from "stores/useHistoryStore";
 
 import { DEFAULT_PAGE_INDEX, DEFAULT_PAGE_SIZE } from "./constants";
-import FilterUI from "./FilterUI";
+import FilterUI from "./Filter";
 import MovieListItem from "./Item";
 
 import PageLoader from "../commons/PageLoader";
@@ -46,11 +46,11 @@ const MovieList = () => {
 
   const handleOpenMovie = (id, title) => {
     addToMoviesHistory(title);
-    updateQueryParams({ movieId: id }, "push");
+    updateQueryParams({ movieId: id });
   };
 
   const handleCloseMovie = () => {
-    updateQueryParams({ movieId: "" }, "push");
+    updateQueryParams({ movieId: "" });
   };
 
   const { data = {}, isLoading } = useShowMovies({
@@ -61,16 +61,11 @@ const MovieList = () => {
     type: typeFromUrl,
   });
 
-  const handleApplyFilters = newFilters => {
-    updateQueryParams({ ...newFilters, page: DEFAULT_PAGE_INDEX });
-    setIsFilterOpen(false);
-  };
-
   const movies = data?.search || [];
   const totalResults = data?.totalResults || 0;
 
   const handlePageNavigation = newPage => {
-    updateQueryParams({ page: newPage }, "push");
+    updateQueryParams({ page: newPage });
   };
 
   if (isLoading && isEmpty(movies) && !!queryFromUrl) return <PageLoader />;
@@ -91,7 +86,6 @@ const MovieList = () => {
           initialValues={{ type: typeFromUrl, year: yearFromUrl }}
           isOpen={isFilterOpen}
           onClose={() => setIsFilterOpen(false)}
-          onSubmit={handleApplyFilters}
         />
       </div>
       {isEmpty(movies) ? (

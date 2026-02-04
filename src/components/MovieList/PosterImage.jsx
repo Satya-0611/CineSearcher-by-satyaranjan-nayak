@@ -17,7 +17,6 @@ const PosterImage = ({ src, alt, className }) => {
     <img
       alt={alt}
       className={className}
-      loading="lazy"
       src={imageSrc}
       onError={() => setImageSrc(DEFAULT_IMAGE)}
     />
