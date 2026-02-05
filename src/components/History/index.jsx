@@ -4,7 +4,7 @@ import classNames from "classnames";
 import { isNotEmpty } from "neetocist";
 import { Alert } from "neetoui";
 import { isEmpty } from "ramda";
-import { useTranslation } from "react-i18next";
+import { Trans, useTranslation } from "react-i18next";
 import useHistoryStore from "stores/useHistoryStore";
 
 import HistoryListItem from "./ListItem";
@@ -77,7 +77,12 @@ const History = () => {
         message={t("history.removeAlertDescription")}
         size="small"
         submitButtonLabel="Delete"
-        title={t("history.clearAllAlert.title")}
+        title={
+          <Trans
+            components={{ bold: <strong /> }}
+            i18nKey={t("history.clearAllAlert.title")}
+          />
+        }
         onClose={() => setIsAlertOpen(false)}
         onSubmit={handleSubmit}
       />

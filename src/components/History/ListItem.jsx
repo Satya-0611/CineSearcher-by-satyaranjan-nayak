@@ -3,6 +3,7 @@ import { useState } from "react";
 import classNames from "classnames";
 import { Delete } from "neetoicons";
 import { Alert, Button } from "neetoui";
+import { Trans } from "react-i18next";
 import withT from "utils/withT";
 
 const ListItem = ({
@@ -44,7 +45,14 @@ const ListItem = ({
         isOpen={isAlertOpen}
         message={t("history.removeAlertDescription")}
         submitButtonLabel="Delete"
-        title={t("history.removeMovieAlert.title", { movie: movieName })}
+        title={
+          <Trans
+            components={{ bold: <strong /> }}
+            i18nKey="history.removeMovieAlert.title"
+            tOptions={{ interpolation: { escapeValue: false } }}
+            values={{ movie: movieName }}
+          />
+        }
         onClose={() => setIsAlertOpen(false)}
         onSubmit={handleDeleteMovie}
       />

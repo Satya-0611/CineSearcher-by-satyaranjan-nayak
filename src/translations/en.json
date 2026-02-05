@@ -21,10 +21,10 @@
     "tabTitle": "View history",
     "clearAllBtn": "Clear\u00A0all",
     "clearAllAlert": {
-      "title": "Clear movies history"
+      "title": "Clear <bold>movies history</bold>"
     },
     "removeMovieAlert": {
-      "title": "Want to delete {{movie}} from history"
+      "title": "Want to delete <bold>{{movie}}</bold> from history"
     },
     "removeAlertDescription": "This action can't be undone"
   },
@@ -41,13 +41,12 @@
     }
   },
   "errorMessages": {
-    "year": "Year can't be in future",
     "noHistory": "Movies history is empty",
     "noInternetConnection": "No internet connection",
     "networkError": "Network Error",
     "yearType": "Only numbers are allowed",
     "yearMaxLimit": "Year can't be in future",
-    "yearMinLimit": "Year must be greater than or equal to 1800",
+    "yearMinLimit": "Year must be greater than or equal to <bold>1900</bold>",
     "noSearchKey": "No search key present"
   },
   "routes": {
